@@ -19,7 +19,7 @@ function Registr() {
     // const newdata = { name, email, password,confirmPassword, role, contact, address };
 
     try {
-      const response = await fetch('http://localhost:4000/register',
+      const response = await fetch('https://ess-backend.vercel.app/register',
         {
           name: name,
           email: email,
