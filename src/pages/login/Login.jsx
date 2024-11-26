@@ -11,8 +11,9 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const backend_API = "https://ess-backend.vercel.app"
     try {
-      const response = await fetch('https://ess-backend.vercel.app/login',
+      const response = await fetch(`${backend_API}/login`,
        {
           headers: {
             'Content-Type': 'application/json',
