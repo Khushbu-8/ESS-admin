@@ -6,10 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 const Users = () => {
 	const [record,setRecord] = useState([])
   const navigete = useNavigate();
-  
+  //  const backend_API = "http://localhost:4000"
+  const backend_API = "https://ess-backend.vercel.app"
+
   const FetchData = async () => {
     try {
-      const response = await fetch(`https://ess-backend.vercel.app/users`, {
+      const response = await fetch(`${backend_API}/users`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -33,7 +35,7 @@ const Users = () => {
   
   const DeletUser = async(id) =>{
     try {
-        const record = await fetch(`https://ess-backend.vercel.app/admin/deleteUser`,{
+        const record = await fetch(`${backend_API}/admin/deleteUser`,{
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({id:id})

@@ -179,9 +179,10 @@ const CreateUser = () => {
  const handleSubmit = async (e) => {
    e.preventDefault();
    const newBusiness = {name, email, password, mobileNumber, address, businessCategory, businessName, businessAddress };
-
+//  const backend_API = "http://localhost:4000"
+    const backend_API = "https://ess-backend.vercel.app"
    try {
-     const response = await fetch('https://ess-backend.vercel.app/register', {
+     const response = await fetch(`${backend_API}/register`, {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',

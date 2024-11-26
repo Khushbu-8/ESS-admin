@@ -177,12 +177,15 @@ const EditUser = () => {
     }
   };
 
+  //  const backend_API = "http://localhost:4000"
+  const backend_API = "https://ess-backend.vercel.app"
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newBusiness = { name, email, password, contact, address, selectedCategories, businessName, businessAddress };
 
     try {
-      const record = await fetch(`https://ess-backend.vercel.app/admin/updateUser`, {
+      const record = await fetch(`${backend_API}/admin/updateUser`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
