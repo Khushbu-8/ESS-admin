@@ -42,12 +42,7 @@ export const sidebarLinks = [
 		icon: HiOutlineUser,
 		activeIcon: HiUser,
 	},
-	{
-		name: "logout",
-		path: "/register",
-		icon: RiLock2Line,
-		activeIcon: RiLock2Fill,
-	},
+	
 	// {
 	// 	name: "login",
 	// 	path: "/login",

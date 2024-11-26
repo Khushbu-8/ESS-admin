@@ -1,11 +1,24 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import Logo from "../../public/ees-logo.png"
 import { sidebarLinks } from "../constants/sidebar";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import {RiLock2Line} from "react-icons/ri";
 
 const Sidebar = ({ handleSidebar, setHandleSidebar }) => {
 	const pathname = useLocation().pathname;
+	const navigete = useNavigate();
+	
+	const logout = async(req,res) => {
+		const response = await fetch(`https://ess-backend.vercel.app/logout`, {
+			method: "POST",
+			credentials: "include" // Include cookies
+		});
+
+		const data = await response.json();
+		alert(data.message);
+		navigete("/");
+	}
 
 	return (
 		<div
@@ -63,6 +76,13 @@ const Sidebar = ({ handleSidebar, setHandleSidebar }) => {
 						</Link>
 					</li>
 				))}
+				<li>
+						<Link className={` flex items-center dark:text-white dark:before:bg-secondary before:rounded-full capitalize transition-all duration-500  before:right-0 w-full hover:text-green-500 text-textColor font-normal"`}><RiLock2Line className="text-2xl " />
+							<button onClick = { () => logout()} className="ms-3 font-semibold whitespace-nowrap ">
+								Logout
+							</button>
+						</Link>
+					</li>
 			</ul>
 		</div>
 	);
