@@ -9,7 +9,7 @@ const Users = () => {
   
   const FetchData = async () => {
     try {
-      const response = await fetch(`https://ess-backend.vercel.app/users`, {
+      const response = await fetch(`http://localhost:4000/users`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });

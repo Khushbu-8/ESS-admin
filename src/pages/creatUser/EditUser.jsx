@@ -11,9 +11,10 @@ const EditUser = () => {
   const [businessCategory, setBusinessCategory] = useState([]);
   const [businessName, setBusinessName] = useState('');
   const [businessAddress, setBusinessAddress] = useState('');
- const location = useLocation();
- const navigete = useNavigate()
- let busnesscat =[
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const location = useLocation();
+  const navigete = useNavigate()
+  let categories = [
     "A.C. SERVICE",
     "ADVOCATE",
     "ALUMINIUM WORKER",
@@ -168,173 +169,187 @@ const EditUser = () => {
     "XEROX",
     "YOGA CLASSES"
   ]
-  const handleCategoryChange = (c,checked) => {
-	let all = [...businessCategory];
-	if(checked){
-		all.push(c)
-	}else{
-		all = all.filter(val => val != c)
-	}
-	setBusinessCategory(all)
-}
+  const toggleSelection = (category) => {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter((c) => c !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newBusiness = { name, email, password, contact, address, selectedCategories, businessName, businessAddress };
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   const newBusiness = {name, email, password, contact, address, businessCategory, businessName, businessAddress };
-
-   try {
-    const record = await fetch(`https://ess-backend.vercel.app/admin/updateUser`,{
+    try {
+      const record = await fetch(`https://ess-backend.vercel.app/admin/updateUser`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id:location?.state?._id,
-            name:name,
-            email:email,
-            password:password,
-            contact:contact,
-            address:address,
-            businessCategory:businessCategory,
-            businessName:businessName,
-            businessAddress:businessAddress
-            
-            })
-    })
-    const data = await record.json();
-        // console.log(data);
-        alert('User Update Successfully');
-        navigete('/dashboard/users')
+          id: location?.state?._id,
+          name: name,
+          email: email,
+          password: password,
+          contact: contact,
+          address: address,
+          businessCategory: selectedCategories,
+          businessName: businessName,
+          businessAddress: businessAddress
 
-} catch (error) {
-    console.log(error);
-    return false;
-}
+        })
+      })
+      await record.json();
+      // console.log(data);
+      alert('User Update Successfully');
+      navigete('/dashboard/users')
 
- };
- useEffect(()=>{
-  setName(location?.state?.name)
-  setEmail(location?.state?.email)
-  setPassword(location?.state?.password)
-  setConfirmPassword(location.state?.confirmPassword)
-  setContact(location?.state?.contact)
-  setAddress(location?.state?.address)
-  setBusinessCategory(location?.state?.businessCategory || []),
-  setBusinessName(location?.state?.businessName),
-  setBusinessAddress(location?.state?.businessAddress)
-},[location?.state])
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
 
- return (
-   <div className="p-4">
-     <h1 className="text-2xl  dark:text-white font-bold mb-4">Edit User</h1>
-     <form onSubmit={handleSubmit} method='post' className="space-y-4  dark:text-white">
-       <div>
-         <label className="block text-sm font-medium">Name</label>
-         <input
-           type="name"
-           value={name}
-           onChange={(e) => setName(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Email</label>
-         <input
-           type="email"
-           value={email}
-           onChange={(e) => setEmail(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Password</label>
-         <input
-           type="password"
-           value={password}
-           onChange={(e) => setPassword(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Confirm Password</label>
-         <input
-           type="password"
-           value={confirmPassword}
-           onChange={(e) => setConfirmPassword(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Mobile Number</label>
-         <input
-           type="text"
-           value={contact}
-           onChange={(e) => setContact(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Address</label>
-         <input
-           type="text"
-           value={address}
-           onChange={(e) => setAddress(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-	   <div>
-         <label className="block text-sm font-medium">Business Name</label>
-         <input
-           type="text"
-           value={businessName}
-           onChange={(e) => setBusinessName(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       <div>
-         <label className="block text-sm font-medium">Business Category</label>
-          <select
-            id="businessCategory"
-            name="businessCategory"
-            onChange={handleCategoryChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            multiple
-          >
+  };
+  useEffect(() => {
+    setName(location?.state?.name)
+    setEmail(location?.state?.email)
+    setPassword(location?.state?.password)
+    setConfirmPassword(location.state?.confirmPassword)
+    setContact(location?.state?.contact)
+    setAddress(location?.state?.address)
+    setSelectedCategories(location?.state?.selectedCategories || []),
+      setBusinessName(location?.state?.businessName),
+      setBusinessAddress(location?.state?.businessAddress)
+  }, [location?.state])
 
-            {busnesscat.map((category, index) => (
-              <option value={category} onChange={ (e) => handleCategoryChange(category,e.target.checked) } checked={businessCategory.includes(category)|| false} >{category}</option>
-            ))}
-          </select>
-       </div>
-      
-       <div>
-         <label className="block text-sm font-medium">Business Address</label>
-         <input
-           type="text"
-           value={businessAddress}
-           onChange={(e) => setBusinessAddress(e.target.value)}
-           className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-           required
-         />
-       </div>
-       
-       <button
-         type="submit"
-         className="w-full bg-blue-500 text-white font -bold py-2 rounded-md hover:bg-blue-600"
-       >
-         Edit User 
-       </button>
-     </form>
-   </div>
- );
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl  dark:text-white font-bold mb-4">Edit User</h1>
+      <form onSubmit={handleSubmit} method='post' className="space-y-4  dark:text-white">
+        <div>
+          <label className="block text-sm font-medium">Name</label>
+          <input
+            type="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Confirm Password</label>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Mobile Number</label>
+          <input
+            type="text"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Address</label>
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Business Name</label>
+          <input
+            type="text"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div className="w-full mt-10">
+        <label className="block text-sm font-medium">
+            Select Business Categories:
+          </label>
+          <div className="mt-2">
+            <div className="border border-gray-300 rounded-md p-2 bg-white">
+              {selectedCategories.length > 0 ? (
+                selectedCategories.map((category, i) => (
+                  <span
+                    key={++i}
+                    className="inline-block bg-green-500 text-white px-3 py-1 text-sm rounded-full mr-2 mb-2"
+                  >
+                    {category}
+                  </span>
+                ))
+              ) : (
+                <span className="text-gray-400">Select categories</span>
+              )}
+            </div>
+            <ul className=" z-10 border border-gray-300 bg-white w-full mt-2 rounded-md shadow-lg max-h-40 overflow-y-auto">
+              {categories.map((category, i) => (
+                <li
+                  key={++i}
+                  className={`cursor-pointer px-4 py-2 hover:bg-green-200 ${selectedCategories.includes(category) ? "bg-green-200" : ""
+                    }`}
+                  onClick={() => toggleSelection(category)}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Business Address</label>
+          <input
+            type="text"
+            value={businessAddress}
+            onChange={(e) => setBusinessAddress(e.target.value)}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-white font -bold py-2 rounded-md hover:bg-green-600"
+        >
+          Edit User
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default EditUser;
