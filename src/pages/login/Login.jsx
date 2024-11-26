@@ -20,8 +20,7 @@ function Login() {
 
           },
           method: 'POST',
-          body: JSON.stringify({ email, password }),
-          credentials: "include" 
+          body: JSON.stringify({ email, password })
         });
 
       if (response.ok) {
