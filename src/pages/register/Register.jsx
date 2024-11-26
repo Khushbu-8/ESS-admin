@@ -21,18 +21,20 @@ function Registr() {
     try {
       const response = await fetch('https://ess-backend.vercel.app/register',
         {
-          name: name,
-          email: email,
-          password: password,
-          cassword: cpassword,
-          contact: contact,
-          address: address
-        }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST'
-      });
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              name:name,
+              email:email,
+              password:password,
+              cpassword:cpassword,
+              contact:contact,
+              address:address,
+              
+              })
+      })
 
       const data = await response.data;
       console.log(data);
