@@ -28,7 +28,7 @@ function Login() {
         });
         console.log(response);
       if (response.ok) {
-        window.location.href = '/dashboard';
+        // window.location.href = '/dashboard';
         naviget('/dashboard')
         console.log('Login successful!');
       } else {
@@ -38,6 +38,7 @@ function Login() {
       }
       
     } catch (error) {
+      console.log(error,"login fetch error")
       setErrorMessage('An error occurred. Please try again later.');
     }
   };
