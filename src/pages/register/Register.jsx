@@ -8,7 +8,6 @@ function Registr() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [cpassword, setCpassword] = useState('');
   const [contact, setContact] = useState('');
   const [address, setAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,7 +30,6 @@ const backend_API = "https://ess-backend.vercel.app"
               name:name,
               email:email,
               password:password,
-              cpassword:cpassword,
               contact:contact,
               address:address,
               
@@ -103,10 +101,6 @@ const backend_API = "https://ess-backend.vercel.app"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Password" />
-                    <input
-                      value={cpassword}
-                      onChange={(e) => setCpassword(e.target.value)}
-                      className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5" type="password" placeholder="Confirm Password" />
                     <input
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
